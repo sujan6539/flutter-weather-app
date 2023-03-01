@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/ui/hero_card.dart';
+import 'package:flutter_weather_app/presentation/ui/hero_card.dart';
 
 class StackedHeroCard extends StatefulWidget {
   StackedHeroCard({

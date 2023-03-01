@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/main.dart';
-import 'package:flutter_weather_app/ui/stats_label.dart';
-import 'package:flutter_weather_app/utils/screen_provider.dart';
+import 'package:flutter_weather_app/presentation/ui/stats_label.dart';
+import 'package:flutter_weather_app/presentation/utils/screen_utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
 class HeroCard extends StatelessWidget {
   const HeroCard({Key? key}) : super(key: key);
@@ -76,7 +75,7 @@ class HeroCard extends StatelessWidget {
                   MyApp.$style.corners.md, MyApp.$style.corners.lg, 0),
               width: 0.8 *
                   MyApp.$style.scale *
-                  ScreenProvider.getDeviceSize(context).width,
+                  ScreenUtils.getDeviceSize(context).width,
               height: MyApp.$style.scale * 2,
               color: Colors.grey,
             ),

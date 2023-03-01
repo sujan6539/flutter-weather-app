@@ -1,0 +1,1 @@
+const movieApiKey = '59065133d2dc1bcd9748129d7dd7f70d';

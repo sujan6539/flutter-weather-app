@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/ui/rectangle_card.dart';
-import 'package:flutter_weather_app/ui/square_card.dart';
-
-import '../ui/hero_card.dart';
+import 'package:flutter_weather_app/presentation/ui/hero_card.dart';
+import 'package:flutter_weather_app/presentation/ui/rectangle_card.dart';
+import 'package:flutter_weather_app/presentation/ui/square_card.dart';
 
 class PickLocation extends StatelessWidget {
   const PickLocation({Key? key}) : super(key: key);
@@ -30,7 +29,6 @@ class PickLocation extends StatelessWidget {
         ),
         SquareCard(),
         RectangleCard(),
-        HeroCard()
       ],
     ));
   }

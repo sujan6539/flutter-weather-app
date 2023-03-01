@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/styles/colors.dart';
-import 'package:flutter_weather_app/styles/dimens.dart';
+import 'package:flutter_weather_app/presentation/styles/colors.dart';
+import 'package:flutter_weather_app/presentation/styles/dimens.dart';
 
 class AppStyle {
   late final double scale;
