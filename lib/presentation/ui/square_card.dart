@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/domain/model/WeatherResponse.dart';
 import 'package:flutter_weather_app/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,6 +12,7 @@ class SquareCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(MyApp.$style.corners.semi_md)),
       child: Container(
+        alignment: Alignment.center,
         decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
                 borderRadius:
@@ -24,6 +26,7 @@ class SquareCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,

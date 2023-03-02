@@ -1,6 +1,8 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter_weather_app/datalayer/open_weather_map_api_service.dart';
 import 'package:flutter_weather_app/datalayer/weather_repository.dart';
 import 'package:flutter_weather_app/domain/model/WeatherResponse.dart';
+import 'package:flutter_weather_app/properties.dart';
 
 class HttpWeatherRepository extends WeatherRepository{
 
@@ -12,9 +14,8 @@ class HttpWeatherRepository extends WeatherRepository{
   // final http.Client client;
 
   @override
-  Future<WeatherResponse> getWeather({required double latitude, required double longitude}) {
-    // TODO: implement getWeather
-    throw UnimplementedError();
+  Future<Response<dynamic>> getWeather({required double latitude, required double longitude}) {
+    return api.getCurrentWeather(key: weatherApiKey, lat: latitude, lon: longitude);
   }
 
 }
