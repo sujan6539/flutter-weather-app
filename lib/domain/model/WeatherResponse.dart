@@ -1,422 +1,264 @@
-/// coord : {"lon":10.99,"lat":44.34}
-/// weather : [{"id":601,"main":"Snow","description":"snow","icon":"13d"}]
-/// base : "stations"
-/// main : {"temp":271.97,"feels_like":269.61,"temp_min":269.41,"temp_max":274.81,"pressure":1016,"humidity":92,"sea_level":1016,"grnd_level":927}
-/// visibility : 46
-/// wind : {"speed":1.79,"deg":334,"gust":2.61}
-/// snow : {"1h":0.92}
-/// clouds : {"all":100}
-/// dt : 1677671874
-/// sys : {"type":2,"id":2004688,"country":"IT","sunrise":1677650061,"sunset":1677690177}
-/// timezone : 3600
-/// id : 3163858
-/// name : "Zocca"
-/// cod : 200
+/// city : {"id":3163858,"name":"Zocca","coord":{"lon":10.99,"lat":44.34},"country":"IT","population":4593,"timezone":3600}
+/// cod : "200"
+/// message : 4.7039383
+/// cnt : 7
+/// list : [{"dt":1677927600,"sunrise":1677908950,"sunset":1677949613,"temp":{"day":280.6,"min":274.01,"max":281.44,"night":275.58,"eve":277.89,"morn":274.19},"feels_like":{"day":279.29,"night":273.32,"eve":277.89,"morn":272.51},"pressure":1017,"humidity":61,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":2.19,"deg":211,"gust":3.83,"clouds":7,"pop":0},{"dt":1678014000,"sunrise":1677995244,"sunset":1678036091,"temp":{"day":282.93,"min":273.96,"max":283.51,"night":275.87,"eve":278.69,"morn":274.14},"feels_like":{"day":282.93,"night":272.93,"eve":276.77,"morn":271.56},"pressure":1012,"humidity":45,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":3.02,"deg":207,"gust":4.78,"clouds":2,"pop":0.04},{"dt":1678100400,"sunrise":1678081539,"sunset":1678122569,"temp":{"day":281.11,"min":274.75,"max":282.18,"night":276.26,"eve":278.65,"morn":274.77},"feels_like":{"day":280.12,"night":273.49,"eve":276.95,"morn":271.97},"pressure":1009,"humidity":66,"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}],"speed":2.87,"deg":207,"gust":4.68,"clouds":62,"pop":0.32},{"dt":1678186800,"sunrise":1678167832,"sunset":1678209046,"temp":{"day":280.91,"min":274.79,"max":280.91,"night":278.18,"eve":278.74,"morn":275.23},"feels_like":{"day":279,"night":275.78,"eve":276.62,"morn":272.46},"pressure":1005,"humidity":64,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":2.98,"deg":207,"gust":7.37,"clouds":66,"pop":0.57,"rain":0.94},{"dt":1678273200,"sunrise":1678254125,"sunset":1678295523,"temp":{"day":280.61,"min":277.59,"max":280.97,"night":279.12,"eve":280.17,"morn":277.59},"feels_like":{"day":279.3,"night":277.43,"eve":279.08,"morn":275.21},"pressure":1001,"humidity":80,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":2.8,"deg":197,"gust":6.92,"clouds":95,"pop":0.53,"rain":1.26},{"dt":1678359600,"sunrise":1678340418,"sunset":1678382000,"temp":{"day":285.68,"min":279.17,"max":285.68,"night":281.07,"eve":281.07,"morn":279.48},"feels_like":{"day":284.48,"night":278.91,"eve":279.06,"morn":277.13},"pressure":1003,"humidity":57,"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"speed":3.41,"deg":207,"gust":6.77,"clouds":100,"pop":0.12},{"dt":1678446000,"sunrise":1678426710,"sunset":1678468476,"temp":{"day":284.7,"min":277.4,"max":285.29,"night":277.4,"eve":281.44,"morn":278.49},"feels_like":{"day":283.48,"night":276.37,"eve":277.78,"morn":276.5},"pressure":1000,"humidity":60,"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}],"speed":7.36,"deg":302,"gust":16.58,"clouds":53,"pop":0.16}]
 
 class WeatherResponse {
   WeatherResponse({
-      Coord? coord, 
-      List<Weather>? weather, 
-      String? base, 
-      Main? main, 
-      num? visibility, 
-      Wind? wind, 
-      Snow? snow, 
-      Clouds? clouds, 
-      num? dt, 
-      Sys? sys, 
-      num? timezone, 
-      num? id, 
-      String? name, 
-      num? cod,}){
-    _coord = coord;
-    _weather = weather;
-    _base = base;
-    _main = main;
-    _visibility = visibility;
-    _wind = wind;
-    _snow = snow;
-    _clouds = clouds;
-    _dt = dt;
-    _sys = sys;
-    _timezone = timezone;
-    _id = id;
-    _name = name;
+    City? city,
+    String? cod,
+    num? message,
+    num? cnt,
+    List<WeatherList>? list,
+  }) {
+    _city = city;
     _cod = cod;
-}
+    _message = message;
+    _cnt = cnt;
+    _list = list;
+  }
 
   WeatherResponse.fromJson(dynamic json) {
-    _coord = json['coord'] != null ? Coord.fromJson(json['coord']) : null;
+    _city = json['city'] != null ? City.fromJson(json['city']) : null;
+    _cod = json['cod'];
+    _message = json['message'];
+    _cnt = json['cnt'];
+    if (json['list'] != null) {
+      _list = [];
+      json['list'].forEach((v) {
+        _list?.add(WeatherList.fromJson(v));
+      });
+    }
+  }
+
+  City? _city;
+  String? _cod;
+  num? _message;
+  num? _cnt;
+  List<WeatherList>? _list;
+
+  WeatherResponse copyWith({
+    City? city,
+    String? cod,
+    num? message,
+    num? cnt,
+    List<WeatherList>? list,
+  }) =>
+      WeatherResponse(
+        city: city ?? _city,
+        cod: cod ?? _cod,
+        message: message ?? _message,
+        cnt: cnt ?? _cnt,
+        list: list ?? _list,
+      );
+
+  City? get city => _city;
+
+  String? get cod => _cod;
+
+  num? get message => _message;
+
+  num? get cnt => _cnt;
+
+  List<WeatherList>? get list => _list;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    if (_city != null) {
+      map['city'] = _city?.toJson();
+    }
+    map['cod'] = _cod;
+    map['message'] = _message;
+    map['cnt'] = _cnt;
+    if (_list != null) {
+      map['list'] = _list?.map((v) => v.toJson()).toList();
+    }
+    return map;
+  }
+}
+
+/// dt : 1677927600
+/// sunrise : 1677908950
+/// sunset : 1677949613
+/// temp : {"day":280.6,"min":274.01,"max":281.44,"night":275.58,"eve":277.89,"morn":274.19}
+/// feels_like : {"day":279.29,"night":273.32,"eve":277.89,"morn":272.51}
+/// pressure : 1017
+/// humidity : 61
+/// weather : [{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}]
+/// speed : 2.19
+/// deg : 211
+/// gust : 3.83
+/// clouds : 7
+/// pop : 0
+
+class WeatherList {
+  WeatherList({
+    num? dt,
+    num? sunrise,
+    num? sunset,
+    Temp? temp,
+    FeelsLike? feelsLike,
+    num? pressure,
+    num? humidity,
+    List<Weather>? weather,
+    num? speed,
+    num? deg,
+    num? gust,
+    num? clouds,
+    num? pop,
+  }) {
+    _dt = dt;
+    _sunrise = sunrise;
+    _sunset = sunset;
+    _temp = temp;
+    _feelsLike = feelsLike;
+    _pressure = pressure;
+    _humidity = humidity;
+    _weather = weather;
+    _speed = speed;
+    _deg = deg;
+    _gust = gust;
+    _clouds = clouds;
+    _pop = pop;
+  }
+
+  WeatherList.fromJson(dynamic json) {
+    _dt = json['dt'];
+    _sunrise = json['sunrise'];
+    _sunset = json['sunset'];
+    _temp = json['temp'] != null ? Temp.fromJson(json['temp']) : null;
+    _feelsLike = json['feels_like'] != null
+        ? FeelsLike.fromJson(json['feels_like'])
+        : null;
+    _pressure = json['pressure'];
+    _humidity = json['humidity'];
     if (json['weather'] != null) {
       _weather = [];
       json['weather'].forEach((v) {
         _weather?.add(Weather.fromJson(v));
       });
     }
-    _base = json['base'];
-    _main = json['main'] != null ? Main.fromJson(json['main']) : null;
-    _visibility = json['visibility'];
-    _wind = json['wind'] != null ? Wind.fromJson(json['wind']) : null;
-    _snow = json['snow'] != null ? Snow.fromJson(json['snow']) : null;
-    _clouds = json['clouds'] != null ? Clouds.fromJson(json['clouds']) : null;
-    _dt = json['dt'];
-    _sys = json['sys'] != null ? Sys.fromJson(json['sys']) : null;
-    _timezone = json['timezone'];
-    _id = json['id'];
-    _name = json['name'];
-    _cod = json['cod'];
-  }
-  Coord? _coord;
-  List<Weather>? _weather;
-  String? _base;
-  Main? _main;
-  num? _visibility;
-  Wind? _wind;
-  Snow? _snow;
-  Clouds? _clouds;
-  num? _dt;
-  Sys? _sys;
-  num? _timezone;
-  num? _id;
-  String? _name;
-  num? _cod;
-WeatherResponse copyWith({  Coord? coord,
-  List<Weather>? weather,
-  String? base,
-  Main? main,
-  num? visibility,
-  Wind? wind,
-  Snow? snow,
-  Clouds? clouds,
-  num? dt,
-  Sys? sys,
-  num? timezone,
-  num? id,
-  String? name,
-  num? cod,
-}) => WeatherResponse(  coord: coord ?? _coord,
-  weather: weather ?? _weather,
-  base: base ?? _base,
-  main: main ?? _main,
-  visibility: visibility ?? _visibility,
-  wind: wind ?? _wind,
-  snow: snow ?? _snow,
-  clouds: clouds ?? _clouds,
-  dt: dt ?? _dt,
-  sys: sys ?? _sys,
-  timezone: timezone ?? _timezone,
-  id: id ?? _id,
-  name: name ?? _name,
-  cod: cod ?? _cod,
-);
-  Coord? get coord => _coord;
-  List<Weather>? get weather => _weather;
-  String? get base => _base;
-  Main? get main => _main;
-  num? get visibility => _visibility;
-  Wind? get wind => _wind;
-  Snow? get snow => _snow;
-  Clouds? get clouds => _clouds;
-  num? get dt => _dt;
-  Sys? get sys => _sys;
-  num? get timezone => _timezone;
-  num? get id => _id;
-  String? get name => _name;
-  num? get cod => _cod;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (_coord != null) {
-      map['coord'] = _coord?.toJson();
-    }
-    if (_weather != null) {
-      map['weather'] = _weather?.map((v) => v.toJson()).toList();
-    }
-    map['base'] = _base;
-    if (_main != null) {
-      map['main'] = _main?.toJson();
-    }
-    map['visibility'] = _visibility;
-    if (_wind != null) {
-      map['wind'] = _wind?.toJson();
-    }
-    if (_snow != null) {
-      map['snow'] = _snow?.toJson();
-    }
-    if (_clouds != null) {
-      map['clouds'] = _clouds?.toJson();
-    }
-    map['dt'] = _dt;
-    if (_sys != null) {
-      map['sys'] = _sys?.toJson();
-    }
-    map['timezone'] = _timezone;
-    map['id'] = _id;
-    map['name'] = _name;
-    map['cod'] = _cod;
-    return map;
-  }
-
-}
-
-/// type : 2
-/// id : 2004688
-/// country : "IT"
-/// sunrise : 1677650061
-/// sunset : 1677690177
-
-class Sys {
-  Sys({
-      num? type, 
-      num? id, 
-      String? country, 
-      num? sunrise, 
-      num? sunset,}){
-    _type = type;
-    _id = id;
-    _country = country;
-    _sunrise = sunrise;
-    _sunset = sunset;
-}
-
-  Sys.fromJson(dynamic json) {
-    _type = json['type'];
-    _id = json['id'];
-    _country = json['country'];
-    _sunrise = json['sunrise'];
-    _sunset = json['sunset'];
-  }
-  num? _type;
-  num? _id;
-  String? _country;
-  num? _sunrise;
-  num? _sunset;
-Sys copyWith({  num? type,
-  num? id,
-  String? country,
-  num? sunrise,
-  num? sunset,
-}) => Sys(  type: type ?? _type,
-  id: id ?? _id,
-  country: country ?? _country,
-  sunrise: sunrise ?? _sunrise,
-  sunset: sunset ?? _sunset,
-);
-  num? get type => _type;
-  num? get id => _id;
-  String? get country => _country;
-  num? get sunrise => _sunrise;
-  num? get sunset => _sunset;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['type'] = _type;
-    map['id'] = _id;
-    map['country'] = _country;
-    map['sunrise'] = _sunrise;
-    map['sunset'] = _sunset;
-    return map;
-  }
-
-}
-
-/// all : 100
-
-class Clouds {
-  Clouds({
-      num? all,}){
-    _all = all;
-}
-
-  Clouds.fromJson(dynamic json) {
-    _all = json['all'];
-  }
-  num? _all;
-Clouds copyWith({  num? all,
-}) => Clouds(  all: all ?? _all,
-);
-  num? get all => _all;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['all'] = _all;
-    return map;
-  }
-
-}
-
-/// 1h : 0.92
-
-class Snow {
-  Snow({
-      num? h,}){
-    _h = h;
-}
-
-  Snow.fromJson(dynamic json) {
-    _h = json['1h'];
-  }
-  num? _h;
-Snow copyWith({  num? h,
-}) => Snow(  h: h ?? _h,
-);
-  num? get h => _h;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['1h'] = _h;
-    return map;
-  }
-
-}
-
-/// speed : 1.79
-/// deg : 334
-/// gust : 2.61
-
-class Wind {
-  Wind({
-      num? speed, 
-      num? deg, 
-      num? gust,}){
-    _speed = speed;
-    _deg = deg;
-    _gust = gust;
-}
-
-  Wind.fromJson(dynamic json) {
     _speed = json['speed'];
     _deg = json['deg'];
     _gust = json['gust'];
+    _clouds = json['clouds'];
+    _pop = json['pop'];
   }
+
+  num? _dt;
+  num? _sunrise;
+  num? _sunset;
+  Temp? _temp;
+  FeelsLike? _feelsLike;
+  num? _pressure;
+  num? _humidity;
+  List<Weather>? _weather;
   num? _speed;
   num? _deg;
   num? _gust;
-Wind copyWith({  num? speed,
-  num? deg,
-  num? gust,
-}) => Wind(  speed: speed ?? _speed,
-  deg: deg ?? _deg,
-  gust: gust ?? _gust,
-);
+  num? _clouds;
+  num? _pop;
+
+  WeatherList copyWith({
+    num? dt,
+    num? sunrise,
+    num? sunset,
+    Temp? temp,
+    FeelsLike? feelsLike,
+    num? pressure,
+    num? humidity,
+    List<Weather>? weather,
+    num? speed,
+    num? deg,
+    num? gust,
+    num? clouds,
+    num? pop,
+  }) =>
+      WeatherList(
+        dt: dt ?? _dt,
+        sunrise: sunrise ?? _sunrise,
+        sunset: sunset ?? _sunset,
+        temp: temp ?? _temp,
+        feelsLike: feelsLike ?? _feelsLike,
+        pressure: pressure ?? _pressure,
+        humidity: humidity ?? _humidity,
+        weather: weather ?? _weather,
+        speed: speed ?? _speed,
+        deg: deg ?? _deg,
+        gust: gust ?? _gust,
+        clouds: clouds ?? _clouds,
+        pop: pop ?? _pop,
+      );
+
+  num? get dt => _dt;
+
+  num? get sunrise => _sunrise;
+
+  num? get sunset => _sunset;
+
+  Temp? get temp => _temp;
+
+  FeelsLike? get feelsLike => _feelsLike;
+
+  num? get pressure => _pressure;
+
+  num? get humidity => _humidity;
+
+  List<Weather>? get weather => _weather;
+
   num? get speed => _speed;
+
   num? get deg => _deg;
+
   num? get gust => _gust;
+
+  num? get clouds => _clouds;
+
+  num? get pop => _pop;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['dt'] = _dt;
+    map['sunrise'] = _sunrise;
+    map['sunset'] = _sunset;
+    if (_temp != null) {
+      map['temp'] = _temp?.toJson();
+    }
+    if (_feelsLike != null) {
+      map['feels_like'] = _feelsLike?.toJson();
+    }
+    map['pressure'] = _pressure;
+    map['humidity'] = _humidity;
+    if (_weather != null) {
+      map['weather'] = _weather?.map((v) => v.toJson()).toList();
+    }
     map['speed'] = _speed;
     map['deg'] = _deg;
     map['gust'] = _gust;
+    map['clouds'] = _clouds;
+    map['pop'] = _pop;
     return map;
   }
-
 }
 
-/// temp : 271.97
-/// feels_like : 269.61
-/// temp_min : 269.41
-/// temp_max : 274.81
-/// pressure : 1016
-/// humidity : 92
-/// sea_level : 1016
-/// grnd_level : 927
-
-class Main {
-  Main({
-      num? temp, 
-      num? feelsLike, 
-      num? tempMin, 
-      num? tempMax, 
-      num? pressure, 
-      num? humidity, 
-      num? seaLevel, 
-      num? grndLevel,}){
-    _temp = temp;
-    _feelsLike = feelsLike;
-    _tempMin = tempMin;
-    _tempMax = tempMax;
-    _pressure = pressure;
-    _humidity = humidity;
-    _seaLevel = seaLevel;
-    _grndLevel = grndLevel;
-}
-
-  Main.fromJson(dynamic json) {
-    _temp = json['temp'];
-    _feelsLike = json['feels_like'];
-    _tempMin = json['temp_min'];
-    _tempMax = json['temp_max'];
-    _pressure = json['pressure'];
-    _humidity = json['humidity'];
-    _seaLevel = json['sea_level'];
-    _grndLevel = json['grnd_level'];
-  }
-  num? _temp;
-  num? _feelsLike;
-  num? _tempMin;
-  num? _tempMax;
-  num? _pressure;
-  num? _humidity;
-  num? _seaLevel;
-  num? _grndLevel;
-Main copyWith({  num? temp,
-  num? feelsLike,
-  num? tempMin,
-  num? tempMax,
-  num? pressure,
-  num? humidity,
-  num? seaLevel,
-  num? grndLevel,
-}) => Main(  temp: temp ?? _temp,
-  feelsLike: feelsLike ?? _feelsLike,
-  tempMin: tempMin ?? _tempMin,
-  tempMax: tempMax ?? _tempMax,
-  pressure: pressure ?? _pressure,
-  humidity: humidity ?? _humidity,
-  seaLevel: seaLevel ?? _seaLevel,
-  grndLevel: grndLevel ?? _grndLevel,
-);
-  num? get temp => _temp;
-  num? get feelsLike => _feelsLike;
-  num? get tempMin => _tempMin;
-  num? get tempMax => _tempMax;
-  num? get pressure => _pressure;
-  num? get humidity => _humidity;
-  num? get seaLevel => _seaLevel;
-  num? get grndLevel => _grndLevel;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['temp'] = _temp;
-    map['feels_like'] = _feelsLike;
-    map['temp_min'] = _tempMin;
-    map['temp_max'] = _tempMax;
-    map['pressure'] = _pressure;
-    map['humidity'] = _humidity;
-    map['sea_level'] = _seaLevel;
-    map['grnd_level'] = _grndLevel;
-    return map;
-  }
-
-}
-
-/// id : 601
-/// main : "Snow"
-/// description : "snow"
-/// icon : "13d"
+/// id : 800
+/// main : "Clear"
+/// description : "sky is clear"
+/// icon : "01d"
 
 class Weather {
   Weather({
-      num? id, 
-      String? main, 
-      String? description, 
-      String? icon,}){
+    num? id,
+    String? main,
+    String? description,
+    String? icon,
+  }) {
     _id = id;
     _main = main;
     _description = description;
     _icon = icon;
-}
+  }
 
   Weather.fromJson(dynamic json) {
     _id = json['id'];
@@ -424,22 +266,31 @@ class Weather {
     _description = json['description'];
     _icon = json['icon'];
   }
+
   num? _id;
   String? _main;
   String? _description;
   String? _icon;
-Weather copyWith({  num? id,
-  String? main,
-  String? description,
-  String? icon,
-}) => Weather(  id: id ?? _id,
-  main: main ?? _main,
-  description: description ?? _description,
-  icon: icon ?? _icon,
-);
+
+  Weather copyWith({
+    num? id,
+    String? main,
+    String? description,
+    String? icon,
+  }) =>
+      Weather(
+        id: id ?? _id,
+        main: main ?? _main,
+        description: description ?? _description,
+        icon: icon ?? _icon,
+      );
+
   num? get id => _id;
+
   String? get main => _main;
+
   String? get description => _description;
+
   String? get icon => _icon;
 
   Map<String, dynamic> toJson() {
@@ -450,7 +301,231 @@ Weather copyWith({  num? id,
     map['icon'] = _icon;
     return map;
   }
+}
 
+/// day : 279.29
+/// night : 273.32
+/// eve : 277.89
+/// morn : 272.51
+
+class FeelsLike {
+  FeelsLike({
+    num? day,
+    num? night,
+    num? eve,
+    num? morn,
+  }) {
+    _day = day;
+    _night = night;
+    _eve = eve;
+    _morn = morn;
+  }
+
+  FeelsLike.fromJson(dynamic json) {
+    _day = json['day'];
+    _night = json['night'];
+    _eve = json['eve'];
+    _morn = json['morn'];
+  }
+
+  num? _day;
+  num? _night;
+  num? _eve;
+  num? _morn;
+
+  FeelsLike copyWith({
+    num? day,
+    num? night,
+    num? eve,
+    num? morn,
+  }) =>
+      FeelsLike(
+        day: day ?? _day,
+        night: night ?? _night,
+        eve: eve ?? _eve,
+        morn: morn ?? _morn,
+      );
+
+  num? get day => _day;
+
+  num? get night => _night;
+
+  num? get eve => _eve;
+
+  num? get morn => _morn;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['day'] = _day;
+    map['night'] = _night;
+    map['eve'] = _eve;
+    map['morn'] = _morn;
+    return map;
+  }
+}
+
+/// day : 280.6
+/// min : 274.01
+/// max : 281.44
+/// night : 275.58
+/// eve : 277.89
+/// morn : 274.19
+
+class Temp {
+  Temp({
+    num? day,
+    num? min,
+    num? max,
+    num? night,
+    num? eve,
+    num? morn,
+  }) {
+    _day = day;
+    _min = min;
+    _max = max;
+    _night = night;
+    _eve = eve;
+    _morn = morn;
+  }
+
+  Temp.fromJson(dynamic json) {
+    _day = json['day'];
+    _min = json['min'];
+    _max = json['max'];
+    _night = json['night'];
+    _eve = json['eve'];
+    _morn = json['morn'];
+  }
+
+  num? _day;
+  num? _min;
+  num? _max;
+  num? _night;
+  num? _eve;
+  num? _morn;
+
+  Temp copyWith({
+    num? day,
+    num? min,
+    num? max,
+    num? night,
+    num? eve,
+    num? morn,
+  }) =>
+      Temp(
+        day: day ?? _day,
+        min: min ?? _min,
+        max: max ?? _max,
+        night: night ?? _night,
+        eve: eve ?? _eve,
+        morn: morn ?? _morn,
+      );
+
+  num? get day => _day;
+
+  num? get min => _min;
+
+  num? get max => _max;
+
+  num? get night => _night;
+
+  num? get eve => _eve;
+
+  num? get morn => _morn;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['day'] = _day;
+    map['min'] = _min;
+    map['max'] = _max;
+    map['night'] = _night;
+    map['eve'] = _eve;
+    map['morn'] = _morn;
+    return map;
+  }
+}
+
+/// id : 3163858
+/// name : "Zocca"
+/// coord : {"lon":10.99,"lat":44.34}
+/// country : "IT"
+/// population : 4593
+/// timezone : 3600
+
+class City {
+  City({
+    num? id,
+    String? name,
+    Coord? coord,
+    String? country,
+    num? population,
+    num? timezone,
+  }) {
+    _id = id;
+    _name = name;
+    _coord = coord;
+    _country = country;
+    _population = population;
+    _timezone = timezone;
+  }
+
+  City.fromJson(dynamic json) {
+    _id = json['id'];
+    _name = json['name'];
+    _coord = json['coord'] != null ? Coord.fromJson(json['coord']) : null;
+    _country = json['country'];
+    _population = json['population'];
+    _timezone = json['timezone'];
+  }
+
+  num? _id;
+  String? _name;
+  Coord? _coord;
+  String? _country;
+  num? _population;
+  num? _timezone;
+
+  City copyWith({
+    num? id,
+    String? name,
+    Coord? coord,
+    String? country,
+    num? population,
+    num? timezone,
+  }) =>
+      City(
+        id: id ?? _id,
+        name: name ?? _name,
+        coord: coord ?? _coord,
+        country: country ?? _country,
+        population: population ?? _population,
+        timezone: timezone ?? _timezone,
+      );
+
+  num? get id => _id;
+
+  String? get name => _name;
+
+  Coord? get coord => _coord;
+
+  String? get country => _country;
+
+  num? get population => _population;
+
+  num? get timezone => _timezone;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['name'] = _name;
+    if (_coord != null) {
+      map['coord'] = _coord?.toJson();
+    }
+    map['country'] = _country;
+    map['population'] = _population;
+    map['timezone'] = _timezone;
+    return map;
+  }
 }
 
 /// lon : 10.99
@@ -458,24 +533,32 @@ Weather copyWith({  num? id,
 
 class Coord {
   Coord({
-      num? lon, 
-      num? lat,}){
+    num? lon,
+    num? lat,
+  }) {
     _lon = lon;
     _lat = lat;
-}
+  }
 
   Coord.fromJson(dynamic json) {
     _lon = json['lon'];
     _lat = json['lat'];
   }
+
   num? _lon;
   num? _lat;
-Coord copyWith({  num? lon,
-  num? lat,
-}) => Coord(  lon: lon ?? _lon,
-  lat: lat ?? _lat,
-);
+
+  Coord copyWith({
+    num? lon,
+    num? lat,
+  }) =>
+      Coord(
+        lon: lon ?? _lon,
+        lat: lat ?? _lat,
+      );
+
   num? get lon => _lon;
+
   num? get lat => _lat;
 
   Map<String, dynamic> toJson() {
@@ -484,5 +567,4 @@ Coord copyWith({  num? lon,
     map['lat'] = _lat;
     return map;
   }
-
 }

@@ -11,9 +11,6 @@ class Dashboard extends StatelessWidget {
         child: Column(
       children: [
         HeroCard(),
-        StackedHeroCard(
-          heroCardList: [HeroCard(), HeroCard()],
-        ),
       ],
     ));
   }

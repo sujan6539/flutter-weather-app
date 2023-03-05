@@ -7,9 +7,11 @@ part "open_weather_map_api_service.chopper.dart";
 abstract class OpenWeatherMapAPIService extends ChopperService {
   @Get(path: ApiConstant.currentWeatherPath)
   Future<Response<dynamic>> getCurrentWeather(
-      {@Query('appid') required String key,
-      @Query('lat') required double lat,
-      @Query('lon') required double lon});
+      {@Query('lat') required double lat,
+      @Query('lon') required double lon,
+        @Query('appid') required String key,
+      @Query('units')  String unit = 'metric',
+      @Query('cnt')  String cnt = '9',});
 
   static OpenWeatherMapAPIService create() {
     final chopperClient = ChopperClient(services: [

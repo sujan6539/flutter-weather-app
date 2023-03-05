@@ -11,12 +11,21 @@ class GetWeatherInitial extends GetWeatherState {
   GetWeatherStateEnum getWeatherStateEnum = GetWeatherStateEnum.INITIAL;
 }
 
-class GetWeather extends GetWeatherState {
+class GetWeatherLoading extends GetWeatherState {
+  @override
+  GetWeatherStateEnum getWeatherStateEnum = GetWeatherStateEnum.LOADING;
+}
 
-  GetWeather(this.getWeatherStateEnum);
+class GetWeather extends GetWeatherState {
+  WeatherResponse weatherResponse;
+
+  GetWeather(this.getWeatherStateEnum, {required this.weatherResponse});
 
   @override
   GetWeatherStateEnum getWeatherStateEnum = GetWeatherStateEnum.LOADING;
+}
 
-
+class GetWeatherFailure extends GetWeatherState {
+  @override
+  GetWeatherStateEnum getWeatherStateEnum = GetWeatherStateEnum.FAILURE;
 }

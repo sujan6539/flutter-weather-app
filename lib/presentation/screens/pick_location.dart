@@ -1,6 +1,9 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_weather_app/business/bloc/get_weather_bloc.dart';
+import 'package:flutter_weather_app/business/bloc/get_weather_bloc.dart';
 import 'package:flutter_weather_app/datalayer/https_weather_repository.dart';
 import 'package:flutter_weather_app/datalayer/open_weather_map_api_service.dart';
 import 'package:flutter_weather_app/domain/model/WeatherResponse.dart';
@@ -9,6 +12,8 @@ import 'package:flutter_weather_app/presentation/ui/hero_card.dart';
 import 'package:flutter_weather_app/presentation/ui/rectangle_card.dart';
 import 'package:flutter_weather_app/presentation/ui/search_bar.dart';
 import 'package:flutter_weather_app/presentation/ui/square_card.dart';
+
+import '../utils/datetime_utils.dart';
 
 class PickLocation extends StatelessWidget {
   const PickLocation({Key? key}) : super(key: key);
@@ -43,21 +48,42 @@ class PickLocation extends StatelessWidget {
           Container(
               margin: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 25.0),
               child: SearchBar()),
-          Expanded(
-            child: MasonryGridView.count(
-              itemCount: 9,
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 20,
-              itemBuilder: (context, index) {
-                if (index == 1) {
-                  return Container(
-                    height: 20,
-                  );
-                }
-                return SquareCard();
-              },
-            ),
+          BlocBuilder<GetWeatherBloc, GetWeatherState>(
+            builder: (_, state) {
+              if (state is GetWeather) {
+                var weatherlist = (state as GetWeather).weatherResponse.list;
+                return Expanded(
+                  child: MasonryGridView.count(
+                    itemCount: weatherlist?.length ?? 0,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 20,
+                    itemBuilder: (context, index) {
+                      if (index == 1) {
+                        return Container(
+                          height: 20,
+                        );
+                      }
+                      var item = weatherlist?[index];
+                      if (item?.temp != null) {
+                        String date = DateTimeUtils.EpocToDateTimeMMMMEEEEd(
+                            item?.dt?.toInt() ?? 0);
+                        return SquareCard(
+                          data: item!.temp?.day?.toString() ?? '',
+                          type: item.weather?.first.main ?? '',
+                          place: (state).weatherResponse.city?.name ?? "",
+                          date: date,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           )
         ],
       ),
