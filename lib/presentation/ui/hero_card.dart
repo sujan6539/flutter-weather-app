@@ -4,8 +4,12 @@ import 'package:flutter_weather_app/presentation/ui/stats_label.dart';
 import 'package:flutter_weather_app/presentation/utils/screen_utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../screens/dashboard.dart';
+
 class HeroCard extends StatelessWidget {
-  const HeroCard({Key? key}) : super(key: key);
+  DashboardWeather dashboardWeather;
+
+  HeroCard({Key? key, required this.dashboardWeather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class HeroCard extends StatelessWidget {
                       MyApp.$style.insets.md,
                       MyApp.$style.insets.md),
                   child: Text(
-                    "Location",
+                    dashboardWeather.location,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
@@ -54,22 +58,22 @@ class HeroCard extends StatelessWidget {
                   MyApp.$style.insets.md,
                   MyApp.$style.insets.md),
               child: Icon(
-                Icons.sunny,
+                dashboardWeather.icon,
                 size: MyApp.$style.dimens.dimens_150,
               ),
             ),
-            const Text(
-              "18",
-              style: TextStyle(
+            Text(
+              dashboardWeather.temperature,
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontSize: 120),
             ),
             Text(
-              "Mostly Clear",
+              dashboardWeather.weatherType,
               style: Theme.of(context).textTheme.headline5,
             ),
-            Text("Date"),
+            Text('${dashboardWeather.day}, ${dashboardWeather.date}'),
             Container(
               margin: EdgeInsets.fromLTRB(MyApp.$style.corners.md,
                   MyApp.$style.corners.md, MyApp.$style.corners.lg, 0),

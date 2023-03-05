@@ -23,9 +23,17 @@ class SquareCard extends StatelessWidget {
         FocusScope.of(context).unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context){
-            return const Dashboard();
+            return Dashboard(
+              dashboardWeather: DashboardWeather(
+                date: datelist[1].trim(),
+                day: datelist[0],
+                temperature: data,
+                icon: WeatherUtils.getWeatherIcon(type),
+                location: place,
+                weatherType: type
+              ),
+            );
           }),
-
         );
       },
       child: Card(
